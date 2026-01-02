@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日答题次数已用完</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .info {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border: 1px solid #d4edda;
+            border-radius: 5px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .no-attempts-box {
+                padding: 30px 20px;
+            }
+            
+            .message {
+                font-size: 1.2rem;
+            }
+            
+            .attempts-info {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .no-attempts-box {
+                padding: 25px 15px;
+            }
+            
+            .message {
+                font-size: 1.1rem;
+            }
+            
+            .attempts-info {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 16px; /* 保持16px以防止iOS缩放 */
+                width: 100%;
+            }
+            
+            .party-emblem {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .party-emblem:before {
+                font-size: 14px;
+            }
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-container .btn {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>今日答题次数已用完</h1>
+        </div>
+        
+        <div class="message">
+            <h2>抱歉，{{ username }}！</h2>
+            <p>您今天的答题次数已经用完了。每人每天只能回答3次问题。</p>
+            <p>请明天再来挑战吧！</p>
+        </div>
+        
+        <div class="info">
+            <h3>答题规则说明：</h3>
+            <ul>
+                <li>每位用户每天有3次答题机会</li>
+                <li>答题机会会在每天0点重置</li>
+                <li>您可以查看排行榜和个人答题记录</li>
+                <li>明天再来挑战，争取更好的成绩！</li>
+            </ul>
+        </div>
+        
+        <div class="btn-container">
+            <a href="{{ url_for('show_rankings') }}" class="btn">查看排行榜</a>
+            <a href="{{ url_for('show_user_records') }}" class="btn btn-secondary">查看个人记录</a>
+        </div>
+    </div>
+</body>
+</html>

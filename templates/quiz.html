@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>党史知识竞赛</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #c12c1f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
+        .quiz-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-timer-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            border-left: 4px solid #c12c1f;
+        }
+        
+        .username {
+            font-weight: bold;
+            color: #c12c1f;
+            font-size: 1.1rem;
+        }
+        
+        .timer {
+            font-size: 1.1rem;
+            color: #c12c1f;
+            font-weight: bold;
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+        }
+        
+        .question-number {
+            color: #c12c1f;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 5px solid #c12c1f;
+        }
+        
+        .options {
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            display: block;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .option input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background-color: #c12c1f;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #a0231a;
+        }
+        
+        .submit-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .progress {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #c12c1f;
+            transition: width 0.5s ease;
+        }
+        
+        .ranking-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        
+        .ranking-title {
+            color: #c12c1f;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .ranking-list {
+            list-style-type: none;
+        }
+        
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .ranking-item.current-user {
+            background-color: #ffebee;
+            border-left: 5px solid #c12c1f;
+            font-weight: bold;
+        }
+        
+        .ranking-item.top-three {
+            background-color: #fff8e1;
+        }
+        
+        .rank {
+            font-weight: bold;
+            margin-right: 10px;
+            color: #c12c1f;
+        }
+        
+        .username {
+            flex-grow: 1;
+        }
+        
+        .score {
+            margin-right: 10px;
+        }
+        
+        .time {
+            color: #666;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .party-emblem {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #c12c1f;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+            position: relative;
+        }
+        
+        .party-emblem:before {
+            content: "\2605";
+            color: #ffeb3b;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+        }
+        
+        .header-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+        
+        .attempts-info {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        
+        .my-records-btn {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        
+        .my-records-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .ranking-section {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .quiz-section, .ranking-section {
+                padding: 20px;
+            }
+            
+            .question {
+                font-size: 1.1rem;
+                padding: 12px;
+            }
+            
+            .option {
+                padding: 12px;
+            }
+            
+            .user-timer-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .quiz-section, .ranking-section {
+                padding: 15px;
+            }
+            
+            .question {
+                font-size: 1rem;
+                padding: 10px;
+            }
+            
+            .option {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .submit-btn {
+                padding: 10px 20px;
+                font-size: 16px; /* 保持16px以防止iOS缩放 */
+                width: 100%;
+            }
+            
+            .party-emblem {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .party-emblem:before {
+                font-size: 14px;
+            }
+            
+            .my-records-btn {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="party-emblem"></span>党史知识竞赛</h1>
+            <div class="header-actions">
+                <a href="/user_records" class="my-records-btn">我的成绩</a>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <section class="quiz-section">
+                <div class="user-timer-info">
+                    <span class="username">{{ username }}</span>
+                    <span class="timer">计时: <span id="timer">00:00</span></span>
+                </div>
+                
+                <div class="attempts-info">
+                    今日剩余答题次数: {{ remaining_attempts }}/3
+                </div>
+                
+                <div class="progress">
+                    <div class="progress-bar" id="progress-bar" style="width: 5%"></div>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question-number">第 {{ question_number }} 题，共 {{ total_questions }} 题</div>
+                    <div class="question" id="question">{{ question.question }}</div>
+                    
+                    <div class="options" id="options">
+                        {% for option in question.options %}
+                        <label class="option">
+                            <input type="radio" name="answer" value="{{ loop.index0 }}">
+                            {{ option }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                    
+                    <button class="submit-btn" id="submit-btn" disabled>提交答案</button>
+                </div>
+            </section>
+            
+            <aside class="ranking-section">
+                <h2 class="ranking-title">实时排名</h2>
+                <ul class="ranking-list" id="ranking-list">
+                    <li class="loading">加载中...</li>
+                </ul>
+            </aside>
+        </div>
+        
+        <footer>
+            <p>© 2026 水岸学院教师第二党支部</p>
+        </footer>
+    </div>
+
+    <script>
+        // 计时器
+        let startTime = Date.now();
+        let timerInterval = setInterval(updateTimer, 1000);
+        
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+            const seconds = (elapsed % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+        }
+        
+        // 选项选择
+        const options = document.querySelectorAll('.option input');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        options.forEach(option => {
+            option.addEventListener('change', () => {
+                submitBtn.disabled = false;
+            });
+        });
+        
+        // 提交答案
+        submitBtn.addEventListener('click', submitAnswer);
+        
+        function submitAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) return;
+            
+            const answer = selectedOption.value;
+            
+            // 禁用提交按钮和选项
+            submitBtn.disabled = true;
+            options.forEach(option => {
+                option.disabled = true;
+            });
+            
+            // 发送答案到服务器
+            fetch('/submit_answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `answer=${answer}`
+            })
+            .then(response => {
+                if (response.status === 403) {
+                    // 处理403错误（没有答题次数）
+                    return response.json().then(data => {
+                        if (data.error === 'no_attempts') {
+                            // 跳转到没有答题次数的页面
+                            window.location.href = '/no_attempts';
+                        } else {
+                            console.error('Error:', data.message);
+                        }
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.finished) {
+                    // 测试完成，跳转到结果页面
+                    window.location.href = '/results';
+                } else if (data && data.next_question) {
+                    // 显示下一题
+                    displayNextQuestion(data);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // 重新启用提交按钮和选项
+                submitBtn.disabled = false;
+                options.forEach(option => {
+                    option.disabled = false;
+                });
+            });
+        }
+        
+        function displayNextQuestion(data) {
+            // 更新题目
+            document.getElementById('question').textContent = data.question.question;
+            
+            // 更新选项
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            data.question.options.forEach((option, index) => {
+                const label = document.createElement('label');
+                label.className = 'option';
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'answer';
+                input.value = index;
+                
+                const text = document.createTextNode(option);
+                
+                label.appendChild(input);
+                label.appendChild(text);
+                optionsContainer.appendChild(label);
+            });
+            
+            // 更新题目编号
+            document.querySelector('.question-number').textContent = 
+                `第 ${data.question_number} 题，共 ${data.total_questions} 题`;
+            
+            // 更新进度条
+            const progress = (data.question_number / data.total_questions) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            
+            // 重置提交按钮
+            submitBtn.disabled = true;
+            
+            // 重新绑定选项事件
+            const newOptions = document.querySelectorAll('.option input');
+            newOptions.forEach(option => {
+                option.addEventListener('change', () => {
+                    submitBtn.disabled = false;
+                });
+            });
+        }
+        
+        // 获取实时排名
+        function updateRankings() {
+            fetch('/api/rankings')
+            .then(response => response.json())
+            .then(data => {
+                const rankingList = document.getElementById('ranking-list');
+                rankingList.innerHTML = '';
+                
+                if (data.rankings && data.rankings.length > 0) {
+                    data.rankings.forEach(item => {
+                        const li = document.createElement('li');
+                        
+                        // 添加样式类
+                        if (item.is_current_user) {
+                            li.className = 'ranking-item current-user';
+                        } else if (item.rank <= 3) {
+                            li.className = 'ranking-item top-three';
+                        } else {
+                            li.className = 'ranking-item';
+                        }
+                        
+                        // 格式化时间
+                        const minutes = Math.floor(item.total_time / 60);
+                        const seconds = Math.floor(item.total_time % 60);
+                        const timeStr = `${minutes}分${seconds}秒`;
+                        
+                        li.innerHTML = `
+                            <span class="rank">${item.rank}.</span>
+                            <span class="username">${item.username}</span>
+                            <span class="score">${item.score}分</span>
+                            <span class="time">${timeStr}</span>
+                        `;
+                        
+                        rankingList.appendChild(li);
+                    });
+                } else {
+                    rankingList.innerHTML = '<li class="loading">暂无排名数据</li>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching rankings:', error);
+                const rankingList = document.getElementById('ranking-list');
+                rankingList.innerHTML = '<li class="loading">加载失败</li>';
+            });
+        }
+        
+        // 初始加载排名
+        updateRankings();
+        
+        // 每5秒更新一次排名
+        setInterval(updateRankings, 5000);
+    </script>
+</body>
+</html>

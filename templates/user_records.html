@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的答题记录 - 党史知识竞赛</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background-color: #c12c1f;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .user-info {
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .attempts-info {
+            text-align: center;
+            padding: 8px 15px;
+            background-color: #ffebee;
+            border-radius: 5px;
+            margin: 10px 0;
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        .user-info a {
+            color: #c12c1f;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        
+        .user-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .records-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: #c12c1f;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #c12c1f;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .best-score {
+            color: #c12c1f;
+            font-weight: bold;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background-color: #c12c1f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #a02419;
+        }
+        
+        .no-records {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .party-emblem {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #c12c1f;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+            position: relative;
+        }
+        
+        .party-emblem:before {
+            content: "\2605";
+            color: #ffeb3b;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #666;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .user-info {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .user-info a {
+                margin: 5px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .records-section {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+            }
+            
+            .back-btn {
+                padding: 8px 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .records-section {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .user-info {
+                font-size: 1rem;
+            }
+            
+            .attempts-info {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 6px 8px;
+            }
+            
+            .back-btn {
+                padding: 10px 15px;
+                font-size: 16px; /* 保持16px以防止iOS缩放 */
+                width: 100%;
+            }
+            
+            .party-emblem {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .party-emblem:before {
+                font-size: 14px;
+            }
+        }
+        
+        /* 表格在小屏幕上的优化 */
+        @media (max-width: 400px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            thead, tbody, th, td, tr {
+                display: block;
+            }
+            
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            tr {
+                border: 1px solid #ccc;
+                margin-bottom: 10px;
+            }
+            
+            td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+                text-align: left;
+                white-space: normal;
+            }
+            
+            td:before {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+                content: attr(data-label);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="party-emblem"></span>党史知识竞赛</h1>
+            <p>我的答题记录</p>
+        </header>
+        
+        <div class="user-info">
+            欢迎，{{ username }}！
+            <a href="{{ url_for('show_rankings') }}">返回排行榜</a>
+            <a href="{{ url_for('logout') }}">退出登录</a>
+        </div>
+        
+        <div class="records-section">
+            <h2 class="section-title">{{ username }}的答题记录，今日剩余答题次数: {{ remaining_attempts }}/3</h2>
+            
+            {% if records %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>答题时间</th>
+                        <th>得分</th>
+                        <th>用时</th>
+                        <th>备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr {% if record.is_best %}class="best-score"{% endif %}>
+                        <td data-label="序号">{{ record.id }}</td>
+                        <td data-label="答题时间">{{ record.timestamp }}</td>
+                        <td data-label="得分">{{ record.score }}/{{ total_questions or 20 }}</td>
+                        <td data-label="用时">{{ record.minutes }}分{{ record.seconds }}.{{ "%03d"|format(record.milliseconds) }}秒</td>
+                        <td data-label="备注">{% if record.is_best %}最佳成绩{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-records">暂无答题记录</div>
+            {% endif %}
+            
+            <div style="text-align: center;">
+                <a href="{{ url_for('show_rankings') }}" class="back-btn">返回排行榜</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2026 水岸学院教师第二党支部</p>
+        </footer>
+    </div>
+</body>
+</html>

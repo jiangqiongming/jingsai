@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>党史知识竞赛 - 排行榜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 20px;
+        }
+        
+        header {
+            background-color: #c62828;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .party-emblem {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background-color: #ffeb3b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #c62828;
+            font-size: 16px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .user-info {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .attempts-info {
+            color: #c62828;
+            font-weight: bold;
+            padding: 8px 15px;
+            background-color: #ffebee;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .welcome {
+            font-size: 1.2rem;
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        .start-btn {
+            background-color: #c62828;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        
+        .start-btn:hover {
+            background-color: #b71c1c;
+        }
+        
+        .rankings {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .rankings h2 {
+            color: #c62828;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .rank-1 {
+            background-color: #fff8e1;
+            font-weight: bold;
+        }
+        
+        .rank-2 {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        .rank-3 {
+            background-color: #fff3e0;
+            font-weight: bold;
+        }
+        
+        .current-user {
+            background-color: #ffebee;
+            font-weight: bold;
+        }
+        
+        .rank-badge {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .rank-1 .rank-badge {
+            background-color: #ffd700;
+            color: #333;
+        }
+        
+        .rank-2 .rank-badge {
+            background-color: #c0c0c0;
+            color: #333;
+        }
+        
+        .rank-3 .rank-badge {
+            background-color: #cd7f32;
+            color: white;
+        }
+        
+        .current-user .rank-badge {
+            background-color: #c62828;
+            color: white;
+        }
+        
+        .logout-btn {
+            background-color: #757575;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background-color: #616161;
+        }
+        
+        .empty-rankings {
+            text-align: center;
+            padding: 30px;
+            color: #757575;
+            font-style: italic;
+        }
+        
+        .refresh-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #388e3c;
+        }
+        
+        .records-btn {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .records-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .user-info {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .party-emblem {
+                width: 25px;
+                height: 25px;
+                font-size: 14px;
+            }
+            
+            .rankings {
+                padding: 15px;
+            }
+            
+            .rankings h2 {
+                font-size: 1.5rem;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+            }
+            
+            .rank-badge {
+                width: 22px;
+                height: 22px;
+                line-height: 22px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px 10px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .party-emblem {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+                top: 8px;
+                left: 10px;
+            }
+            
+            .user-info {
+                padding: 10px;
+            }
+            
+            .welcome {
+                font-size: 1rem;
+            }
+            
+            .attempts-info {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+            
+            .rankings {
+                padding: 10px;
+            }
+            
+            .rankings h2 {
+                font-size: 1.3rem;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 6px 8px;
+            }
+            
+            .rank-badge {
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                font-size: 0.8rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .start-btn, .records-btn, .refresh-btn, .logout-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* 表格在小屏幕上的优化 */
+        @media (max-width: 400px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            thead, tbody, th, td, tr {
+                display: block;
+            }
+            
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            tr {
+                border: 1px solid #ccc;
+                margin-bottom: 10px;
+            }
+            
+            td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+                text-align: left;
+                white-space: normal;
+            }
+            
+            td:before {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+                content: attr(data-label);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="party-emblem">党</div>
+            <h1>党史知识竞赛</h1>
+            <p>学习党史知识，传承红色基因</p>
+        </header>
+        
+        <div class="user-info">
+            <div class="welcome">欢迎，{{ username }} 同志</div>
+            <div class="attempts-info">今日剩余答题次数: {{ remaining_attempts }}/3</div>
+            <div class="actions">
+                <button class="start-btn" onclick="startQuiz()">开始答题</button>
+                <button class="records-btn" onclick="viewMyRecords()">我的成绩</button>
+                <button class="refresh-btn" onclick="refreshRankings()">刷新排行榜</button>
+                <button class="logout-btn" onclick="logout()">退出登录</button>
+            </div>
+        </div>
+        
+        <div class="rankings">
+            <h2>竞赛排行榜</h2>
+            {% if rankings %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>姓名</th>
+                        <th>答题时间</th>
+                        <th>得分</th>
+                        <th>用时</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in rankings %}
+                    <tr class="{% if item.rank == 1 %}rank-1{% elif item.rank == 2 %}rank-2{% elif item.rank == 3 %}rank-3{% endif %} {% if item.is_current_user %}current-user{% endif %}">
+                        <td data-label="排名">
+                            {% if item.rank == 1 %}
+                                <span class="rank-badge">1</span>
+                            {% elif item.rank == 2 %}
+                                <span class="rank-badge">2</span>
+                            {% elif item.rank == 3 %}
+                                <span class="rank-badge">3</span>
+                            {% else %}
+                                {{ item.rank }}
+                            {% endif %}
+                        </td>
+                        <td data-label="姓名">{{ item.username }}</td>
+                        <td data-label="答题时间">{{ item.timestamp }}</td>
+                        <td data-label="得分">{{ item.score }}</td>
+                        <td data-label="用时">{{ item.minutes }}分{{ item.seconds }}.{{ "%03d"|format(item.milliseconds) }}秒</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-rankings">暂无竞赛记录，快来成为第一个参赛者吧！</div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2026 水岸学院教师第二党支部</p>
+    </footer>
+    
+    <script>
+        // 存储当前排行榜状态
+        let currentRankingsState = {
+            count: 0,
+            latestTimestamp: null
+        };
+        
+        // 初始化当前状态
+        function initializeRankingsState() {
+            fetch('/api/rankings/check')
+                .then(response => response.json())
+                .then(data => {
+                    currentRankingsState = {
+                        count: data.count,
+                        latestTimestamp: data.latest_timestamp
+                    };
+                });
+        }
+        
+        // 检查排行榜是否有更新
+        function checkForUpdates() {
+            fetch('/api/rankings/check')
+                .then(response => response.json())
+                .then(data => {
+                    // 如果结果数量变化或最新时间戳变化，则更新排行榜
+                    if (data.count !== currentRankingsState.count || 
+                        data.latest_timestamp !== currentRankingsState.latestTimestamp) {
+                        // 更新状态
+                        currentRankingsState = {
+                            count: data.count,
+                            latestTimestamp: data.latest_timestamp
+                        };
+                        
+                        // 刷新排行榜
+                        refreshRankings();
+                        
+                        // 显示更新提示
+                        showUpdateNotification();
+                    }
+                })
+                .catch(error => {
+                    console.error('检查更新失败:', error);
+                });
+        }
+        
+        // 显示更新提示
+        function showUpdateNotification() {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#4caf50';
+            notification.style.color = 'white';
+            notification.style.padding = '10px 20px';
+            notification.style.borderRadius = '5px';
+            notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+            notification.style.zIndex = '1000';
+            notification.style.transition = 'opacity 0.5s';
+            notification.textContent = '排行榜已更新！';
+            
+            // 添加到页面
+            document.body.appendChild(notification);
+            
+            // 3秒后淡出并移除
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+        
+        function startQuiz() {
+            // 先检查剩余答题次数
+            fetch('/api/attempts/check')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('检查答题次数失败');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.remaining_attempts <= 0) {
+                        // 如果没有剩余次数，跳转到no_attempts页面
+                        window.location.href = '/no_attempts';
+                    } else {
+                        // 如果有剩余次数，正常跳转到quiz页面
+                        window.location.href = '/quiz';
+                    }
+                })
+                .catch(error => {
+                    console.error('检查答题次数出错:', error);
+                    // 出错时默认跳转到quiz页面，让后端处理
+                    window.location.href = '/quiz';
+                });
+        }
+        
+        function logout() {
+            window.location.href = '/logout';
+        }
+        
+        function refreshRankings() {
+            window.location.reload();
+        }
+        
+        function viewMyRecords() {
+            window.location.href = '/user_records';
+        }
+        
+        // 页面加载时初始化状态
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRankingsState();
+            
+            // 每5秒检查一次是否有新数据
+            setInterval(checkForUpdates, 5000);
+        });
+    </script>
+</body>
+</html>
