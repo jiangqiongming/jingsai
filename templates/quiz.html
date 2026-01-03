@@ -279,7 +279,11 @@
             }
             
             .ranking-section {
-                order: -1;
+                order: 1; /* 确保排名显示在题目之后 */
+            }
+            
+            .quiz-section {
+                order: 0; /* 确保题目显示在排名之前 */
             }
         }
         

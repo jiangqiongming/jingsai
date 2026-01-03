@@ -290,6 +290,8 @@
             
             table {
                 font-size: 0.9rem;
+                display: table;
+                width: 100%;
             }
             
             th, td {
@@ -344,10 +346,14 @@
             
             table {
                 font-size: 0.8rem;
+                display: table;
+                width: 100%;
+                overflow-x: auto;
             }
             
             th, td {
                 padding: 6px 8px;
+                min-width: 60px;
             }
             
             .rank-badge {
@@ -365,50 +371,6 @@
             .start-btn, .records-btn, .refresh-btn, .logout-btn {
                 padding: 8px 15px;
                 font-size: 0.9rem;
-            }
-        }
-        
-        /* 表格在小屏幕上的优化 */
-        @media (max-width: 400px) {
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            
-            thead, tbody, th, td, tr {
-                display: block;
-            }
-            
-            thead tr {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-            
-            tr {
-                border: 1px solid #ccc;
-                margin-bottom: 10px;
-            }
-            
-            td {
-                border: none;
-                border-bottom: 1px solid #eee;
-                position: relative;
-                padding-left: 50%;
-                text-align: left;
-                white-space: normal;
-            }
-            
-            td:before {
-                position: absolute;
-                top: 6px;
-                left: 6px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-                font-weight: bold;
-                content: attr(data-label);
             }
         }
     </style>
@@ -448,7 +410,7 @@
                 <tbody>
                     {% for item in rankings %}
                     <tr class="{% if item.rank == 1 %}rank-1{% elif item.rank == 2 %}rank-2{% elif item.rank == 3 %}rank-3{% endif %} {% if item.is_current_user %}current-user{% endif %}">
-                        <td data-label="排名">
+                        <td>
                             {% if item.rank == 1 %}
                                 <span class="rank-badge">1</span>
                             {% elif item.rank == 2 %}
@@ -459,10 +421,10 @@
                                 {{ item.rank }}
                             {% endif %}
                         </td>
-                        <td data-label="姓名">{{ item.username }}</td>
-                        <td data-label="答题时间">{{ item.timestamp }}</td>
-                        <td data-label="得分">{{ item.score }}</td>
-                        <td data-label="用时">{{ item.minutes }}分{{ item.seconds }}.{{ "%03d"|format(item.milliseconds) }}秒</td>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.timestamp }}</td>
+                        <td>{{ item.score }}</td>
+                        <td>{{ item.minutes }}分{{ item.seconds }}.{{ "%03d"|format(item.milliseconds) }}秒</td>
                     </tr>
                     {% endfor %}
                 </tbody>

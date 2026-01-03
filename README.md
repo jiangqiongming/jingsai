@@ -1,5 +1,9 @@
 # 党史知识竞赛系统
 
+![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
+![Flask](https://img.shields.io/badge/Flask-3.0.3-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 ## 项目简介
 
 这是一个基于Flask的党史知识竞赛系统，支持用户答题、查看排行榜和成绩记录等功能。
@@ -22,16 +26,40 @@
 
 ## 安装部署
 
-1. 安装Python 3.7+
-2. 安装依赖：
+### 本地部署
+
+1. 克隆仓库：
+   ```bash
+   git clone https://github.com/yourusername/党史知识竞赛系统.git
+   cd 党史知识竞赛系统
+   ```
+
+2. 安装Python 3.7+
+
+3. 创建虚拟环境（推荐）：
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Windows: venv\Scripts\activate
+   ```
+
+4. 安装依赖：
    ```bash
    pip install -r requirements.txt
    ```
-3. 运行应用：
+
+5. 运行应用：
    ```bash
    python app_final.py
    ```
-4. 访问 `http://127.0.0.1:5000`
+
+6. 访问 `http://127.0.0.1:5000`
+
+### 部署到云平台
+
+本项目支持部署到以下平台：
+- Heroku
+- PythonAnywhere
+- 任何支持Python的云服务器
 
 ## 使用说明
 
@@ -45,6 +73,8 @@
 ```
 ├── app_final.py          # 主应用文件
 ├── requirements.txt      # 依赖包列表
+├── Procfile             # 部署配置文件
+├── .gitignore           # Git忽略文件
 ├── user_records.json     # 用户答题记录存储
 └── templates/            # 前端模板文件
     ├── login.html        # 登录页面
@@ -90,3 +120,17 @@
 - 题目存储在app_final.py中，可按需修改
 - 用户记录自动存储在user_records.json中
 - 支持简单的数据备份和恢复
+
+## 贡献指南
+
+欢迎提交Issue和Pull Request来改进这个项目。
+
+## 许可证
+
+本项目采用MIT许可证 - 详见[LICENSE](LICENSE)文件
+
+## 联系方式
+
+如有问题或建议，请通过以下方式联系：
+- 提交Issue
+- 发送邮件至：your.email@example.com
