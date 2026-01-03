@@ -49,7 +49,7 @@
 
 5. 运行应用：
    ```bash
-   python app_final.py
+   python app.py
    ```
 
 6. 访问 `http://127.0.0.1:5000`
@@ -71,7 +71,7 @@
 ## 项目结构
 
 ```
-├── app_final.py          # 主应用文件
+├── app.py               # 主应用文件
 ├── requirements.txt      # 依赖包列表
 ├── Procfile             # 部署配置文件
 ├── .gitignore           # Git忽略文件
@@ -97,11 +97,11 @@
 
 ### 修改预设人员名单
 
-在`app_final.py`文件中的`PRESET_USERS`列表中修改预设人员名单。
+在`app.py`文件中的`PRESET_USERS`列表中修改预设人员名单。
 
 ### 修改题目
 
-在`app_final.py`文件中的`QUESTIONS`列表中修改或添加题目。
+在`app.py`文件中的`QUESTIONS`列表中修改或添加题目。
 
 ## 数据存储
 
@@ -117,7 +117,7 @@
 
 ## 维护说明
 
-- 题目存储在app_final.py中，可按需修改
+- 题目存储在app.py中，可按需修改
 - 用户记录自动存储在user_records.json中
 - 支持简单的数据备份和恢复
 
